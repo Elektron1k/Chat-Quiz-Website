@@ -8,6 +8,7 @@ const ButtonDefault = styled.button`
   color: rgb(86, 186, 183);
   font-size: 1.1rem;
   background: rgb(35, 35, 39);
+  cursor: pointer;
 
   ${(props) =>
     props.nameButton === 'logout' &&
@@ -40,8 +41,12 @@ const ButtonDefault = styled.button`
     `};
 `;
 
-const Button = ({ nameButton, textButton }) => {
-  return <ButtonDefault nameButton={nameButton}>{textButton}</ButtonDefault>;
+const Button = ({ nameButton, textButton, getClick }) => {
+  return (
+    <ButtonDefault onClick={getClick} nameButton={nameButton}>
+      {textButton}
+    </ButtonDefault>
+  );
 };
 
 export default Button;

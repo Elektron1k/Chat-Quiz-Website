@@ -1,5 +1,7 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router';
 import styled from 'styled-components';
+import { getLogout } from '../redux/userSlice';
 import Button from './Button';
 
 const Container = styled.div`
@@ -24,11 +26,20 @@ const H1 = styled.h1`
 `;
 
 const MainHeader = () => {
+  const dispatch = useDispatch();
+  const isAuthentication = useSelector((store) => store.user.isAuthentication);
+
+  const logOut = () => {
+    dispatch(getLogout());
+  };
+
   return (
     <Container>
       <Header>
         <H1>Q</H1>
-        <Button textButton="Logout" nameButton="logout" />
+        {isAuthentication && (
+          <Button textButton="Logout" nameButton="logout" getClick={logOut} />
+        )}
       </Header>
       <Outlet />
     </Container>

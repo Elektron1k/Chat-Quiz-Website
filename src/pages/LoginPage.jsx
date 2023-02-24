@@ -1,13 +1,18 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../img/google.png';
+import { getAuthetication } from '../redux/userSlice';
+
+const ContainerFlex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
 
 const Container = styled.div`
-  position: absolute;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  top: 400px;
-
   width: 600px;
   height: 200px;
   background: rgb(35, 35, 39);
@@ -29,13 +34,25 @@ const Button = styled.button`
 `;
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const isAuthentication = useSelector((store) => store.user.isAuthentication);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthentication) {
+      navigate('/');
+    }
+  }, [isAuthentication, navigate]);
+
   return (
-    <Container>
-      <Button>
-        <img src={logo} width="20px" alt="google" />
-        <span style={{ marginLeft: '180px' }}>Login with Google</span>
-      </Button>
-    </Container>
+    <ContainerFlex>
+      <Container>
+        <Button onClick={() => dispatch(getAuthetication())}>
+          <img src={logo} width="20px" alt="google" />
+          <span style={{ marginLeft: '180px' }}>Login with Google</span>
+        </Button>
+      </Container>
+    </ContainerFlex>
   );
 };
 
