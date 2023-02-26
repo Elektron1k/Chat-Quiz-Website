@@ -10,6 +10,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
+  z-index: 1;
   position: fixed;
   background: rgb(35, 35, 39);
   height: 100px;

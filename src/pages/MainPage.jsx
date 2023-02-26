@@ -8,6 +8,7 @@ import ListQuestions from '../components/ListQuestions';
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  max-height: 100vh;
 `;
 
 const MainPage = () => {

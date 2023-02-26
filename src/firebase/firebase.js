@@ -10,6 +10,8 @@ import { getDatabase } from 'firebase/database';
 const firebaseConfig = {
   apiKey: 'AIzaSyAKvLp06De52ursMdnIqfKtbN8Me6Rvs24',
   authDomain: 'chat-quiz-website-46753.firebaseapp.com',
+  databaseURL:
+    'https://chat-quiz-website-46753-default-rtdb.europe-west1.firebasedatabase.app',
   projectId: 'chat-quiz-website-46753',
   storageBucket: 'chat-quiz-website-46753.appspot.com',
   messagingSenderId: '252993316177',

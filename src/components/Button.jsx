@@ -28,8 +28,9 @@ const ButtonDefault = styled.button`
     props.nameButton === 'chat' &&
     css`
       border-radius: 10px;
-      width: 100px;
-      margin: 30px 50px;
+      width: 130px;
+      background: none;
+      margin: 0 5px;
     `};
 
   ${(props) =>
