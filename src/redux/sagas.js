@@ -1,17 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { getNewAuth } from '../firebase/authentication';
-import {
-  getAuthError,
-  getAuthSuccess,
-  getLogout,
-  getLogoutSuccess,
-} from './userSlice';
+import { getNewAuth, getLogout } from '../firebase/authentication';
+import { getAuthError, getAuthSuccess, getLogoutSuccess } from './userSlice';
 
 export function* workGetUserAuth() {
   try {
-    const data = yield call(() => getNewAuth());
-    yield put(getAuthSuccess(data));
+    yield call(() => getNewAuth());
+    yield put(getAuthSuccess());
   } catch {
     yield put(getAuthError('Error authetication'));
   }
