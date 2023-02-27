@@ -10,6 +10,7 @@ export const userSlice = createSlice({
     isAuthentication: false,
     errorAuthentication: false,
     errorUsers: '',
+    userReadiness: false,
   },
   reducers: {
     getAuthetication: (state) => {
@@ -42,6 +43,9 @@ export const userSlice = createSlice({
       state.user = {};
       state.isAuthentication = false;
     },
+    getUserReady: (state) => {
+      state.userReadiness = !state.userReadiness;
+    },
   },
 });
 
@@ -54,6 +58,7 @@ export const {
   getLogoutSuccess,
   getTestActiveUserSuccess,
   getTestActiveUserError,
+  getUserReady,
 } = userSlice.actions;
 
 export default userSlice.reducer;

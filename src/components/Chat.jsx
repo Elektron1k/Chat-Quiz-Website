@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { db } from '../firebase/firebase';
-import avatar from '../img/avatar.png';
+import avatar from '../img/avatar.jpg';
 import { getAllMassege, getNewMassege } from '../redux/massegesSlice';
 import Button from './Button';
 
@@ -13,11 +13,12 @@ const Container = styled.div`
   border-left: #fff solid 2px;
   border-radius: 10px 0 0 10px;
   background: #667;
+  height: 90vh;
 `;
 
 const ContainerMassega = styled.div`
   overflow: auto;
-  max-height: 55vh;
+  max-height: 70vh;
 `;
 
 const ContainerSend = styled.div`

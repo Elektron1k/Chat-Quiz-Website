@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Chat from '../components/Chat';
 import ListQuestions from '../components/ListQuestions';
+import ReadyForQuiz from '../components/ReadyForQuiz';
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,8 @@ const MainPage = () => {
 
   return (
     <Container>
-      <ListQuestions />
+      <ReadyForQuiz />
+      {/* <ListQuestions /> */}
       <Chat />
     </Container>
   );

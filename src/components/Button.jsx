@@ -22,6 +22,7 @@ const ButtonDefault = styled.button`
     props.nameButton === 'cancel' &&
     css`
       background: rgb(86, 186, 183);
+      color: #fff;
     `};
 
   ${(props) =>
@@ -39,6 +40,13 @@ const ButtonDefault = styled.button`
       border-radius: 3px;
       width: 100%;
       margin: 20px auto;
+    `};
+
+  ${(props) =>
+    props.nameButton === 'start' &&
+    css`
+      background: none;
+      width: 170px;
     `};
 `;
 
