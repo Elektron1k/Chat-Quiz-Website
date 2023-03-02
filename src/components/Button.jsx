@@ -43,6 +43,17 @@ const ButtonDefault = styled.button`
     `};
 
   ${(props) =>
+    props.nameButton === 'question' &&
+    props.disabled &&
+    css`
+      border-radius: 3px;
+      width: 100%;
+      margin: 20px auto;
+      border: rgb(55, 95, 96) solid 2px;
+      color: rgb(55, 95, 96);
+    `};
+
+  ${(props) =>
     props.nameButton === 'start' &&
     css`
       background: none;
@@ -50,9 +61,13 @@ const ButtonDefault = styled.button`
     `};
 `;
 
-const Button = ({ nameButton, textButton, getClick }) => {
+const Button = ({ nameButton, textButton, getClick, disabled }) => {
   return (
-    <ButtonDefault onClick={getClick} nameButton={nameButton}>
+    <ButtonDefault
+      disabled={disabled}
+      onClick={() => getClick(textButton)}
+      nameButton={nameButton}
+    >
       {textButton}
     </ButtonDefault>
   );

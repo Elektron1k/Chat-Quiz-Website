@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Chat from '../components/Chat';
-import ListQuestions from '../components/ListQuestions';
 import ReadyForQuiz from '../components/ReadyForQuiz';
 
 const Container = styled.div`
@@ -25,7 +24,6 @@ const MainPage = () => {
   return (
     <Container>
       <ReadyForQuiz />
-      {/* <ListQuestions /> */}
       <Chat />
     </Container>
   );

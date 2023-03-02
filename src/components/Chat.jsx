@@ -13,12 +13,11 @@ const Container = styled.div`
   border-left: #fff solid 2px;
   border-radius: 10px 0 0 10px;
   background: #667;
-  height: 90vh;
 `;
 
 const ContainerMassega = styled.div`
   overflow: auto;
-  max-height: 70vh;
+  max-height: 80%;
 `;
 
 const ContainerSend = styled.div`
@@ -27,6 +26,7 @@ const ContainerSend = styled.div`
   position: absolute;
   bottom: 50px;
   width: 35%;
+  background: #667;
 `;
 
 const Massage = styled.div`
@@ -92,7 +92,7 @@ const Chat = () => {
   return (
     <Container>
       <ContainerMassega>
-        {masseges.length !== 0 &&
+        {masseges &&
           masseges.map((massege, index) => {
             const userImage = massege.userPhoto ? massege.userPhoto : avatar;
             const styleMassege = user.uid === massege.userId ? '' : 'right';

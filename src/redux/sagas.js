@@ -1,8 +1,20 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { getQuestions } from '../api/requestAPI';
 
 import { getNewAuth, getLogout } from '../firebase/authentication';
-import { sendNewMassege } from '../firebase/requestFirebase';
+import {
+  sendNewMassege,
+  sendActiveUser,
+  sendUserUnready,
+} from '../firebase/requestFirebase';
 import { getMassegeError } from './massegesSlice';
+import {
+  getActiveQuestion,
+  getQuestionsSuccess,
+  getQuizError,
+  getUserReadySuccess,
+  getUserUnreadySuccess,
+} from './quizSlice';
 import { getAuthError, getAuthSuccess, getLogoutSuccess } from './userSlice';
 
 export function* workGetUserAuth() {
@@ -33,10 +45,43 @@ export function* workGetNewMassege(action) {
   }
 }
 
+export function* workGetUserReady() {
+  const user = yield select((state) => state.user.user);
+  try {
+    yield call(() => sendActiveUser(user));
+    yield put(
+      getUserReadySuccess({ userName: user.displayName, userId: user.uid })
+    );
+  } catch {
+    yield put(getQuizError('Error send user to Quiz'));
+  }
+}
+
+export function* workGetUserUnready() {
+  const user = yield select((state) => state.user.user);
+  try {
+    yield call(() => sendUserUnready(user));
+    yield put(getUserUnreadySuccess());
+  } catch {
+    yield put(getQuizError('Error send user to Quiz'));
+  }
+}
+
+export function* workGetQuestions() {
+  try {
+    const data = yield call(() => getQuestions());
+    yield put(getQuestionsSuccess(data.results));
+    yield put(getActiveQuestion());
+  } catch {}
+}
+
 export function* rootSaga() {
   yield takeEvery('user/getAuthetication', workGetUserAuth);
   yield takeEvery('user/getLogout', workGetLogout);
   yield takeEvery('masseges/getNewMassege', workGetNewMassege);
+  yield takeEvery('quiz/getUserReady', workGetUserReady);
+  yield takeEvery('quiz/getUserUnready', workGetUserUnready);
+  yield takeEvery('quiz/getQuestions', workGetQuestions);
 }
 
 export default rootSaga;

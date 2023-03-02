@@ -1,13 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getUserReady } from '../redux/userSlice';
+import {
+  getQuestions,
+  getStartQuiz,
+  getUserReady,
+  getUserUnready,
+} from '../redux/quizSlice';
+import ListQuestions from './ListQuestions';
+
 import Button from './Button';
+import { useEffect } from 'react';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../firebase/firebase';
 
 const ContainerFlex = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  width: 65%;
+  width: 64%;
   align-items: center;
   justify-content: center;
   height: 100vh;
@@ -20,34 +29,50 @@ const TextQuestion = styled.div`
 `;
 
 const ReadyForQuiz = () => {
-  const userStatus = useSelector((state) => state.user.userReadiness);
+  const userStatus = useSelector((state) => state.quiz.userReadiness);
+  const startQuiz = useSelector((state) => state.quiz.startQuiz);
   const dispatch = useDispatch();
 
   const openQuestions = () => {
-    dispatch(getUserReady());
+    if (userStatus) {
+      dispatch(getUserUnready());
+    } else {
+      dispatch(getUserReady());
+      dispatch(getQuestions());
+    }
   };
+
+  useEffect(() => {
+    onValue(ref(db, 'start/'), (snapshot) => {
+      dispatch(getStartQuiz(snapshot.val()));
+    });
+  }, [dispatch]);
 
   return (
     <ContainerFlex>
-      {userStatus ? (
-        <>
-          <TextQuestion>Ready to start The Quiz</TextQuestion>
-
-          <Button
-            textButton="CANCEL"
-            nameButton="cancel"
-            getClick={openQuestions}
-          />
-        </>
+      {startQuiz && userStatus ? (
+        <ListQuestions />
       ) : (
         <>
-          <TextQuestion>START if you are ready to start Quiz</TextQuestion>
-
-          <Button
-            textButton="START"
-            nameButton="start"
-            getClick={openQuestions}
-          />
+          {userStatus ? (
+            <>
+              <TextQuestion>Ready to start The Quiz</TextQuestion>
+              <Button
+                textButton="CANCEL"
+                nameButton="cancel"
+                getClick={openQuestions}
+              />
+            </>
+          ) : (
+            <>
+              <TextQuestion>START if you are ready to start Quiz</TextQuestion>
+              <Button
+                textButton="START"
+                nameButton="start"
+                getClick={openQuestions}
+              />
+            </>
+          )}
         </>
       )}
     </ContainerFlex>

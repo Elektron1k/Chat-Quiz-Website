@@ -1,6 +1,6 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router';
 import MainHeader from './components/MainHeader';
 import { auth } from './firebase/firebase';
@@ -12,10 +12,7 @@ import {
 } from './redux/userSlice';
 
 function App() {
-  const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
-
-  console.log(user);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

@@ -1,18 +1,21 @@
 import styled from 'styled-components';
 import Button from './Button';
 import ok from '../img/ok.png';
+import error from '../img/false.png';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getResponseCheck } from '../redux/quizSlice';
 
 const Container = styled.div`
   width: 400px;
-  margin: 0 auto;
-  padding: 100px 15px;
 `;
 
 const Result = styled.div`
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -50px;
   height: 40px;
-  background: #466;
-  margin: 30px 0;
 `;
 
 const List = styled.div`
@@ -32,22 +35,45 @@ const Question = styled.p`
 `;
 
 const ListQuestions = () => {
+  const dispatch = useDispatch();
+  const activeQuestionVariants = useSelector(
+    (state) => state.quiz.activeQuestionVariants
+  );
+  const activeQuestion = useSelector((state) => state.quiz.activeQuestion);
+  const waitingResponse = useSelector((state) => state.quiz.waitingResponse);
+  const answers = useSelector((state) => state.quiz.answers);
+
+  const responseCheck = (answer) => {
+    dispatch(getResponseCheck(answer));
+  };
+
   return (
     <Container>
       <Result>
-        <img src={ok} alt="ok" height="30px" />
+        {answers &&
+          answers.map((el, index) => (
+            <img
+              src={el.result ? ok : error}
+              alt="ok"
+              height="30px"
+              key={index}
+            />
+          ))}
       </Result>
-      <List>
-        <Question>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo harum
-          nam nostrum dolores modi quasi quam praesentium voluptatem adipisci
-          saepe.
-        </Question>
-        <Button textButton="0.1m" nameButton="question" />
-        <Button textButton="100m" nameButton="question" />
-        <Button textButton="10m" nameButton="question" />
-        <Button textButton="1m" nameButton="question" />
-      </List>
+      {activeQuestion && (
+        <List>
+          <Question>{activeQuestion}</Question>
+          {activeQuestionVariants.map((element, index) => (
+            <Button
+              disabled={!waitingResponse}
+              textButton={element}
+              nameButton="question"
+              key={index}
+              getClick={responseCheck}
+            />
+          ))}
+        </List>
+      )}
     </Container>
   );
 };
