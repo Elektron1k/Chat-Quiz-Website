@@ -16,6 +16,7 @@ const sendActiveUser = async (user) => {
     userName: user.displayName,
     userId: user.uid,
     userReadiness: true,
+    userPhoto: user.photoURL,
   });
 };
 
@@ -25,4 +26,8 @@ const sendUserUnready = async (user) => {
   });
 };
 
-export { sendNewMassege, sendActiveUser, sendUserUnready };
+const sendUsersAnswers = async (answers, activeUserId) => {
+  return await update(ref(db, 'users/' + activeUserId), { answers });
+};
+
+export { sendNewMassege, sendActiveUser, sendUserUnready, sendUsersAnswers };

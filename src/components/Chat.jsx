@@ -12,7 +12,6 @@ const Container = styled.div`
   margin-top: 100px;
   border-left: #fff solid 2px;
   border-radius: 10px 0 0 10px;
-  background: #667;
 `;
 
 const ContainerMassega = styled.div`
@@ -26,7 +25,7 @@ const ContainerSend = styled.div`
   position: absolute;
   bottom: 50px;
   width: 35%;
-  background: #667;
+  background: none;
 `;
 
 const Massage = styled.div`
@@ -51,6 +50,8 @@ const TextArea = styled.textarea`
   margin: 5px;
   padding: 15px;
   resize: none;
+  opacity: 0.7;
+  color: #fff;
 `;
 
 const Nik = styled.div`
@@ -90,7 +91,7 @@ const Chat = () => {
   }, [dispatch]);
 
   return (
-    <Container>
+    <Container className="fon">
       <ContainerMassega>
         {masseges &&
           masseges.map((massege, index) => {

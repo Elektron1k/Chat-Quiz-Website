@@ -12,6 +12,7 @@ import Button from './Button';
 import { useEffect } from 'react';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../firebase/firebase';
+import Results from './Results';
 
 const ContainerFlex = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const TextQuestion = styled.div`
 const ReadyForQuiz = () => {
   const userStatus = useSelector((state) => state.quiz.userReadiness);
   const startQuiz = useSelector((state) => state.quiz.startQuiz);
+  const resaltsAllUsers = useSelector((state) => state.quiz.resaltsAllUsers);
   const dispatch = useDispatch();
 
   const openQuestions = () => {
@@ -48,7 +50,9 @@ const ReadyForQuiz = () => {
     });
   }, [dispatch]);
 
-  return (
+  return resaltsAllUsers.length !== 0 ? (
+    <Results />
+  ) : (
     <ContainerFlex>
       {startQuiz && userStatus ? (
         <ListQuestions />

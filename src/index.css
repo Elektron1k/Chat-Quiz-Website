@@ -16,3 +16,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.fon::after {
+  content: '';
+  background: url(img/fon.jpg);
+  background-size: 400px;
+  opacity: 0.2;
+  top: 100px;
+  left: 65%;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}

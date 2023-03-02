@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const ButtonDefault = styled.button`
-  height: 35px;
+  min-height: 35px;
   width: 150px;
   border: rgb(86, 186, 183) solid 2px;
   border-radius: 5px;
@@ -28,6 +28,8 @@ const ButtonDefault = styled.button`
   ${(props) =>
     props.nameButton === 'chat' &&
     css`
+      height: 35px;
+
       border-radius: 10px;
       width: 130px;
       background: none;

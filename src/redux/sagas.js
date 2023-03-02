@@ -6,12 +6,15 @@ import {
   sendNewMassege,
   sendActiveUser,
   sendUserUnready,
+  sendUsersAnswers,
 } from '../firebase/requestFirebase';
 import { getMassegeError } from './massegesSlice';
 import {
   getActiveQuestion,
+  getFinishedQuid,
   getQuestionsSuccess,
   getQuizError,
+  getResponseCheck,
   getUserReadySuccess,
   getUserUnreadySuccess,
 } from './quizSlice';
@@ -75,6 +78,22 @@ export function* workGetQuestions() {
   } catch {}
 }
 
+export function* workGetCheck(action) {
+  const numberQuestion = yield select((state) => state.quiz.numberQuestion);
+  const questions = yield select((state) => state.quiz.questions);
+
+  const activeUserId = yield select((state) => state.user.activeUserId);
+
+  yield put(getResponseCheck(action.payload));
+  const answers = yield select((state) => state.quiz.answers);
+  if (numberQuestion < questions.length) {
+    yield put(getActiveQuestion());
+  } else {
+    yield call(() => sendUsersAnswers(answers, activeUserId));
+    yield put(getFinishedQuid());
+  }
+}
+
 export function* rootSaga() {
   yield takeEvery('user/getAuthetication', workGetUserAuth);
   yield takeEvery('user/getLogout', workGetLogout);
@@ -82,6 +101,7 @@ export function* rootSaga() {
   yield takeEvery('quiz/getUserReady', workGetUserReady);
   yield takeEvery('quiz/getUserUnready', workGetUserUnready);
   yield takeEvery('quiz/getQuestions', workGetQuestions);
+  yield takeEvery('quiz/getCheck', workGetCheck);
 }
 
 export default rootSaga;

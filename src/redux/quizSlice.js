@@ -13,6 +13,8 @@ export const quizSlice = createSlice({
     numberQuestion: 1,
     answers: [],
     waitingResponse: true,
+    isFinishedQuiz: false,
+    resaltsAllUsers: [],
   },
   reducers: {
     getQuizError: (state, actions) => {
@@ -52,7 +54,9 @@ export const quizSlice = createSlice({
 
       state.activeQuestion = state.questions[state.numberQuestion - 1].question;
       state.activeQuestionVariants = shuffle(newArr);
+      state.waitingResponse = true;
     },
+    getCheck: () => {},
     getResponseCheck: (state, action) => {
       state.waitingResponse = false;
       if (
@@ -64,13 +68,42 @@ export const quizSlice = createSlice({
           answer: action.payload,
           questionsNumber: state.numberQuestion,
         });
+        state.numberQuestion = state.numberQuestion + 1;
       } else {
         state.answers = state.answers.concat({
           result: false,
           answer: action.payload,
           questionsNumber: state.numberQuestion,
         });
+        state.numberQuestion = state.numberQuestion + 1;
       }
+    },
+    getFinishedQuid: (state) => {
+      state.isFinishedQuiz = true;
+    },
+    getResultsAllUsers: (state, action) => {
+      const results = Object.values(action.payload).map((el) => {
+        const photo = el.userPhoto;
+
+        const name = el.userName;
+        let result = 0;
+        el.answers.map((el) => (el.result ? result++ : result));
+        return { name, result, photo };
+      });
+      state.resaltsAllUsers = results;
+    },
+    resetResults: (state) => {
+      state.resaltsAllUsers = [];
+      state.userReadiness = false;
+      state.startQuiz = false;
+      state.answersUser = {};
+      state.startQuiz = false;
+      state.questions = [];
+      state.activeQuestionVariants = [];
+      state.activeQuestion = '';
+      state.numberQuestion = 1;
+      state.waitingResponse = true;
+      state.isFinishedQuiz = false;
     },
   },
 });
@@ -87,6 +120,10 @@ export const {
   getQuestionsSuccess,
   getActiveQuestion,
   getResponseCheck,
+  getCheck,
+  getFinishedQuid,
+  getResultsAllUsers,
+  resetResults,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;

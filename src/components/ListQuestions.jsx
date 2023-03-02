@@ -4,7 +4,10 @@ import ok from '../img/ok.png';
 import error from '../img/false.png';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getResponseCheck } from '../redux/quizSlice';
+import { getCheck, getResultsAllUsers } from '../redux/quizSlice';
+import { useEffect } from 'react';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../firebase/firebase';
 
 const Container = styled.div`
   width: 400px;
@@ -42,10 +45,19 @@ const ListQuestions = () => {
   const activeQuestion = useSelector((state) => state.quiz.activeQuestion);
   const waitingResponse = useSelector((state) => state.quiz.waitingResponse);
   const answers = useSelector((state) => state.quiz.answers);
+  const isFinishedQuiz = useSelector((state) => state.quiz.isFinishedQuiz);
 
   const responseCheck = (answer) => {
-    dispatch(getResponseCheck(answer));
+    dispatch(getCheck(answer));
   };
+
+  useEffect(() => {
+    if (isFinishedQuiz) {
+      onValue(ref(db, 'users/'), (snapshot) => {
+        dispatch(getResultsAllUsers(snapshot.val()));
+      });
+    }
+  }, [isFinishedQuiz, dispatch]);
 
   return (
     <Container>
@@ -57,6 +69,7 @@ const ListQuestions = () => {
               alt="ok"
               height="30px"
               key={index}
+              style={{ margin: '0 5px' }}
             />
           ))}
       </Result>
